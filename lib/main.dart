@@ -2,7 +2,6 @@ import 'dart:io';
 
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter/services.dart';
 
 import './widgets/new_transaction.dart';
 import './widgets/transaction_list.dart';
@@ -15,18 +14,17 @@ void main() {
   //   DeviceOrientation.portraitUp,
   //   DeviceOrientation.portraitDown,
   // ]);
-  runApp(MyApp());
+  runApp(const MyApp());
 }
 
 class MyApp extends StatelessWidget {
+  const MyApp({Key? key}) : super(key: key);
+
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
       title: 'Personal Expenses',
       theme: ThemeData(
-        primarySwatch: Colors.purple,
-        accentColor: Colors.amber,
-        errorColor: Colors.red,
         fontFamily: 'QuickSand',
         textTheme: ThemeData.light().textTheme.copyWith(
               titleMedium: const TextStyle(
@@ -41,14 +39,16 @@ class MyApp extends StatelessWidget {
             fontSize: 20,
             fontWeight: FontWeight.bold,
           ),
-        ),
+        ), colorScheme: ColorScheme.fromSwatch(primarySwatch: Colors.purple).copyWith(secondary: Colors.amber).copyWith(error: Colors.red),
       ),
-      home: MyHomePage(),
+      home: const MyHomePage(),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
+  const MyHomePage({Key? key}) : super(key: key);
+
   @override
   State<MyHomePage> createState() => _MyHomePageState();
 }
@@ -130,7 +130,7 @@ class _MyHomePageState extends State<MyHomePage> {
             style: Theme.of(context).textTheme.titleMedium,
           ),
           Switch.adaptive(
-            activeColor: Theme.of(context).accentColor,
+            activeColor: Theme.of(context).colorScheme.secondary,
             value: _showChart,
             onChanged: (val) {
               setState(() {
@@ -141,7 +141,7 @@ class _MyHomePageState extends State<MyHomePage> {
         ],
       ),
       _showChart
-          ? Container(
+          ? SizedBox(
               height: (mediaQuery.size.height -
                       appBar.preferredSize.height -
                       mediaQuery.padding.top) *
@@ -158,7 +158,7 @@ class _MyHomePageState extends State<MyHomePage> {
     Widget txListWidget,
   ) {
     return [
-      Container(
+      SizedBox(
         height: (mediaQuery.size.height -
                 appBar.preferredSize.height -
                 mediaQuery.padding.top) *
@@ -199,7 +199,7 @@ class _MyHomePageState extends State<MyHomePage> {
     final mediaQuery = MediaQuery.of(context);
     final isLandscape = mediaQuery.orientation == Orientation.landscape;
     final PreferredSizeWidget appBar = _buidAppBar();
-    final txListWidget = Container(
+    final txListWidget = SizedBox(
       height: (mediaQuery.size.height - appBar.preferredSize.height) * 0.67,
       child: TransactionList(_userTransactions, _deleteTransaction),
     );

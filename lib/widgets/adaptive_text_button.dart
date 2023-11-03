@@ -7,13 +7,13 @@ class AdapTiveTextButton extends StatelessWidget {
   final String text;
   final Function handler;
 
-  AdapTiveTextButton(this.text, this.handler);
+  const AdapTiveTextButton(this.text, this.handler, {Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
     return Platform.isIOS
         ? CupertinoButton(
-            onPressed: handler,
+            onPressed: () => handler,
             child: Text(
               text,
               style: const TextStyle(
@@ -22,8 +22,8 @@ class AdapTiveTextButton extends StatelessWidget {
             ),
           )
         : TextButton(
-            style: TextButton.styleFrom(primary: Colors.purple),
-            onPressed: handler,
+            style: TextButton.styleFrom(foregroundColor: Colors.purple),
+            onPressed: () => handler,
             child: Text(
               text,
               style: const TextStyle(

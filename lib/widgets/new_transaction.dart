@@ -6,7 +6,7 @@ import '../widgets/adaptive_text_button.dart';
 class NewTransaction extends StatefulWidget {
   final Function addTx;
 
-  NewTransaction(this.addTx) {
+  NewTransaction(this.addTx, {Key? key}) : super(key: key) {
     print('Constructor NewTransaction Widget');
   }
 
@@ -20,7 +20,7 @@ class NewTransaction extends StatefulWidget {
 class _NewTransactionState extends State<NewTransaction> {
   final _titleController = TextEditingController();
   final _amountController = TextEditingController();
-  DateTime _selectedDate;
+  DateTime? _selectedDate;
 
   _NewTransactionState() {
     print('Constructor NewTransaction State');
@@ -51,7 +51,7 @@ class _NewTransactionState extends State<NewTransaction> {
     final enteredTitle = _titleController.text;
     final enteredAmount = double.parse(_amountController.text);
 
-    if (enteredTitle.isEmpty || enteredAmount <= 0 || _selectedDate == null) {
+    if (enteredTitle.isEmpty || enteredAmount <= 0) {
       return;
     }
     widget.addTx(
@@ -110,7 +110,7 @@ class _NewTransactionState extends State<NewTransaction> {
                 onSubmitted: (_) => _submitData(),
                 // onChanged: (val) => amountInput = val,
               ),
-              Container(
+              SizedBox(
                 height: 70,
                 child: Row(
                   children: [
@@ -118,7 +118,7 @@ class _NewTransactionState extends State<NewTransaction> {
                       child: Text(
                         _selectedDate == null
                             ? 'No Date Chosen!'
-                            : 'Picked Date: ${DateFormat.yMd().format(_selectedDate)}',
+                            : 'Picked Date: ${DateFormat.yMd().format(_selectedDate ?? DateTime.now())}',
                       ),
                     ),
                     AdapTiveTextButton('Choos Date', _presentDatePicker),
@@ -127,7 +127,7 @@ class _NewTransactionState extends State<NewTransaction> {
               ),
               ElevatedButton(
                 style: TextButton.styleFrom(
-                  primary: Colors.white,
+                  foregroundColor: Colors.white,
                 ),
                 onPressed: _submitData,
                 child: const Text('Add Transection'),
